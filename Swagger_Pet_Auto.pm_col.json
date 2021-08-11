@@ -1,0 +1,468 @@
+{
+	"info": {
+		"_postman_id": "d1cfa7dd-0e80-478f-b8c8-0573a325ab8c",
+		"name": "Swagger_Pet_Auto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Pet Image",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Add Pet Image Success Response',function(){",
+							"pm.response.to.have.status(200);",
+							"}",
+							")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "additionalMetadata",
+							"value": "Pet Image",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"value": "@pet_file_name.png",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "image/png",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BaseUrl}}101/uploadImage",
+					"host": [
+						"{{BaseUrl}}101"
+					],
+					"path": [
+						"uploadImage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add pet and validate success response\", function() {",
+							"pm.response.to.have.status(200);",
+							"let respBodyStr = pm.response.text();",
+							"pm.collectionVariables.set(\"respBodyString\", respBodyStr);",
+							"//pm.environment.set(\"respBodyString\", respBodyStr);",
+							"//let respBody = JSON.parse(respBodyStr);",
+							"//let id = respBody[\"id\"];",
+							"let id = respBodyStr.substring(6,25);",
+							"console.log(respBodyStr);",
+							"pm.collectionVariables.set(\"pet_id\", id);",
+							"}",
+							")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 0,\n  \"category\": {\n    \"id\": 1,\n    \"name\": \"puppy\"\n  },\n  \"name\": \"doggie\",\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 0,\n      \"name\": \"Bulldog\"\n    }\n  ],\n  \"status\": \"available\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}",
+					"host": [
+						"{{BaseUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Update Pet Success Response',function(){",
+							"pm.response.to.have.status(200);",
+							"}",
+							")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": {{pet_id}},\n  \"category\": {\n    \"id\": 1,\n    \"name\": \"Pluppy\"\n  },\n  \"name\": \"doggie\",\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 0,\n      \"name\": \"French Bulldog\"\n    }\n  ],\n  \"status\": \"available\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}",
+					"host": [
+						"{{BaseUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pet By Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Available Pet Success Response',function(){",
+							"pm.response.to.have.status(200);",
+							"}",
+							")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet/findByStatus?status=available",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "available"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pet By ID and verify status available",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Get Pet Id Success Response',function(){",
+							"pm.response.to.have.status(200);",
+							"}",
+							")",
+							"",
+							"let respBody = pm.response.json();",
+							"",
+							"pm.test('Get Pet by Id and verify status available',function(){",
+							"pm.expect(respBody[\"status\"]).to.eql(\"available\");",
+							"}",
+							")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}{{pet_id}}",
+					"host": [
+						"{{BaseUrl}}{{pet_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Pet by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Add Pet Image Success Response',function(){",
+							"pm.response.to.have.status(200);",
+							"}",
+							")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "pplication/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "status",
+							"value": "sold",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BaseUrl}}{{pet_id}}",
+					"host": [
+						"{{BaseUrl}}{{pet_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pet By ID and verify status sold",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Get Pet Id Success Response',function(){",
+							"pm.response.to.have.status(200);",
+							"}",
+							")",
+							"",
+							"let respBody = pm.response.json();",
+							"",
+							"",
+							"pm.test('Get Pet by Id and verify status available',function(){",
+							"pm.expect(respBody[\"status\"]).to.eql(\"sold\");",
+							"}",
+							")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}{{pet_id}}",
+					"host": [
+						"{{BaseUrl}}{{pet_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Pet by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Delete Pet Success Response',function(){",
+							"pm.response.to.have.status(200);",
+							"}",
+							")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{BaseUrl}}{{pet_id}}",
+					"host": [
+						"{{BaseUrl}}{{pet_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseUrl",
+			"value": "https://petstore.swagger.io/v2/pet/"
+		},
+		{
+			"key": "respBodyString",
+			"value": ""
+		},
+		{
+			"key": "pet_id",
+			"value": ""
+		},
+		{
+			"key": "mock_url",
+			"value": "",
+			"disabled": true
+		}
+	]
+}
